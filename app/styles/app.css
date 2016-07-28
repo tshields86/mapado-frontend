@@ -1,0 +1,33 @@
+/*.style-all = {
+  boxSizing: 'border-box',
+  textAlign: 'center',
+  fontFamily: "helvetica",
+  color: "#F5F5F5"
+}
+
+.style-header = {
+  position: 'fixed',
+  margin: '0auto',
+  textAlign: "center",
+  fontSize: "60px",
+  margin: "15px 50px 0px 50px",
+  textShadow: '4px -2px 4px rgba(0, 0, 0, 1)',
+  color: "#F5F5F5"
+}
+
+.style-map = {
+  width: '100vw',
+  height: '65vw',
+  zIndex: '-3000',
+  position: 'fixed',
+  border: '0',
+  padding: '0'
+};
+
+.style-data = {
+  width: '25vw',
+  zIndex: '3000',
+  float: 'right',
+  marginRight: '2vw',
+  background: "rgba(1,1,1,0.75)",
+}*/

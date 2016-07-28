@@ -10,7 +10,7 @@ const Main = React.createClass({
         console.log("user longitude" + position.coords.longitude);
         let userLat = position.coords.latitude;
         let userLong = position.coords.longitude;
-    L.mapbox.accessToken = (process.env.MPX || kk.mpx);
+    L.mapbox.accessToken = (process.env.MPX || kk.mpx); //keys
     Window.map = L.mapbox.map('map', 'mapbox.wheatpaste').setView(([userLat, userLong]||[40.7527, -73.9772]), 13);
     L.mapbox.featureLayer({
     type: 'Feature',

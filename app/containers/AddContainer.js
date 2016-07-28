@@ -11,44 +11,26 @@ const AddContainer = React.createClass({
 
   getInitialState: function(){
     return {
-      taskName: null,
-      date: null,
-      time: null,
-      location: null,
-      category: null,
-      detail: null
+      tasks:[],
+      task: {
+        taskName: '',
+        date: '',
+        time: '',
+        location: '',
+        category: '',
+        detail: ''
+      }
     }
   },
 
-  handleOnTaskName: function(e){
-    this.setState({
-      taskName: e.target.value
-    })
-  },
-  handleOnDate: function(e){
-    this.setState({
-      date: e.target.value
-    })
-  },
-  handleOnTime: function(e){
-    this.setState({
-      time: e.target.value
-    })
-  },
-  handleOnLocation: function(e){
-    this.setState({
-      location: e.target.value
-    })
-  },
-  handleOnCategory: function(e){
-    this.setState({
-      category: e.target.value
-    })
-  },
-  handleOnDetail: function(e){
-    this.setState({
-      detail: e.target.value
-    })
+  handleOnChange: function(propertyName){
+    return function (e){
+      var task ={};
+      task[propertyName] = e.target.value;
+      this.setState({
+        task: task
+      })
+    }.bind(this)
   },
 
   componentDidMount: function() {
@@ -78,21 +60,12 @@ const AddContainer = React.createClass({
   handleOnSubmitTask: function(e){
     e.preventDefault();
 
-    const task = {
-      taskName: this.state.taskName,
-      date: this.state.date,
-      time: this.state.time,
-      location: this.state.location,
-      category: this.state.category,
-      detail: this.state.detail
-    };
-
-    if (task.taskName !== null){
-    ajaxHelpers.addTask(task)
-    .then(function(response){
-      console.log('Response:', response);
-      // routingToList();
-      })
+    if (this.state.task.taskName !== ''){
+      ajaxHelpers.addTask(this.state.task)
+      .then(function(response){
+        console.log('Response:', response);
+        // routingToList();
+        })
     };
     setTimeout(()=>{
       this.context.router.push({pathname: '/listTasks'});
@@ -101,6 +74,7 @@ const AddContainer = React.createClass({
   },
 
   render: function () {
+    console.log("logging state:", this.state.task.taskName);
     const tasksListElement = [];
     const listStyle = {
       border: "1px solid black"
@@ -120,15 +94,11 @@ const AddContainer = React.createClass({
     return (
     <div>
       <AddTask
-        onAddTaskName={this.handleOnTaskName}
-        onAddDate={this.handleOnDate}
-        onAddTime={this.handleOnTime}
-        onAddLocation={this.handleOnLocation}
-        onAddCategory={this.handleOnCategory}
-        onAddDetail={this.handleOnDetail}
+        changeFxn={this.handleOnChange}
         onSubmitTask={this.handleOnSubmitTask}
         tasks={tasksListElement}
-        />
+        currentTask={this.state.task}
+      />
 
     </div>
     );

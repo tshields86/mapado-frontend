@@ -18,7 +18,6 @@ const EditContainer = React.createClass({
   },
 
   componentWillMount: function() {
-    console.log("logging this.props.params.id", this.props.location.query.taskMongoid);
     ajaxHelpers.getTask(this.props.location.query.taskMongoid)
     .then((response)=>{
       this.setState({
@@ -29,18 +28,20 @@ const EditContainer = React.createClass({
 
   handleOnChange: function(propertyName){
     return function (e){
+      console.log("logging state before type", this.state.task);
       var task = this.state.task;
       task[propertyName] = e.target.value;
       this.setState({
         task: task
       })
+      console.log("logging state after type", this.state.task);
     }.bind(this)
   },
 
   handleOnSubmitTask: function(e){
     e.preventDefault();
 
-    const taskToUpdate = {
+    let taskToUpdate = {
         identifier: {
           taskMongoid: this.state.task.taskMongoid
         },
@@ -53,14 +54,13 @@ const EditContainer = React.createClass({
           detail: this.state.task.detail
         }
     };
+    console.log("about to update with this object", taskToUpdate);
 
     ajaxHelpers.updateTask(taskToUpdate)
     .then(function(response){
       console.log("response for updating task: ", response);
-      })
-    .then(() => {
       this.context.router.push({pathname: '/listTasks'});
-    })
+    }.bind(this))
 
   },
 

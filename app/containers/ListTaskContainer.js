@@ -14,7 +14,6 @@ const ListTaskContainer = React.createClass({
 
   getInitialState: function() {
     return {
-      isLoading: true,
       tasks: [],
     }
   },
@@ -48,9 +47,8 @@ const ListTaskContainer = React.createClass({
     //   }
   },
 
-  componentDidMount: function() {
+  componentDidUpdate: function() {
     ajaxHelpers.getTasks()
-    //TODO show my tasks
     .then(function(response){
       this.setState({
         tasks: response.data.tasks
@@ -116,6 +114,10 @@ const ListTaskContainer = React.createClass({
       />
     )
   });
+
+  if(false){
+    console.log("WHATEVER");
+  }
 
   return (
     <div>

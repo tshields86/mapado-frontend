@@ -46,7 +46,7 @@ function AddTask(props) {
             value={props.thisTask.category}
             className="custom-select"
           >
-            <option selected>Choose Category</option>
+            <option>Choose Category</option>
             <option value="personal">Personal</option>
             <option value="school">School</option>
             <option value="work">Work</option>
@@ -77,7 +77,7 @@ function AddTask(props) {
           </div>
 
           <button
-            type="submit"
+            type="button"
             className="btn btn-primary"
             onClick={props.onSubmitTask}
           >&#x2b;

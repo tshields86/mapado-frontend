@@ -11,31 +11,25 @@ const EditContainer = React.createClass({
 
   getInitialState: function(){
     return {
-      task:{
-        taskMongoid: this.props.location.query.taskMongoid,
-        taskName: this.props.location.query.taskName,
-        date: this.props.location.query.date,
-        time: this.props.location.query.time,
-        location: this.props.location.query.location,
-        category: this.props.location.query.category,
-        detail: this.props.location.query.detail
-      }
+      task: {
+          taskMongoid: this.props.location.query.taskMongoid,
+        }
     }
   },
 
-
   componentWillMount: function() {
-    ajaxHelpers.getTask(this.props.params.id)
+    console.log("logging this.props.params.id", this.props.location.query.taskMongoid);
+    ajaxHelpers.getTask(this.props.location.query.taskMongoid)
     .then((response)=>{
       this.setState({
-        tasks: response
+        task: response.data
       });
     });
   },
 
   handleOnChange: function(propertyName){
     return function (e){
-      var task ={};
+      var task = this.state.task;
       task[propertyName] = e.target.value;
       this.setState({
         task: task
@@ -43,35 +37,26 @@ const EditContainer = React.createClass({
     }.bind(this)
   },
 
-  componentDidMount: function() {
-    ajaxHelpers.updateTask()
-    //TODO show my tasks
-    .then(function(response){
-      this.setState({
-        tasks: response.data.tasks
-      });
-    }.bind(this));
-  },
-
   handleOnSubmitTask: function(e){
     e.preventDefault();
 
     const taskToUpdate = {
         identifier: {
-          taskMongoid: this.state.taskMongoid
+          taskMongoid: this.state.task.taskMongoid
         },
         objToChange: {
-          taskName: this.state.taskName,
-          date: this.state.date,
-          time: this.state.time,
-          location: this.state.location,
-          category: this.state.category,
-          detail: this.state.detail
+          taskName: this.state.task.taskName,
+          date: this.state.task.date,
+          time: this.state.task.time,
+          location: this.state.task.location,
+          category: this.state.task.category,
+          detail: this.state.task.detail
         }
     };
 
     ajaxHelpers.updateTask(taskToUpdate)
     .then(function(response){
+      console.log("response for updating task: ", response);
       })
     .then(() => {
       this.context.router.push({pathname: '/listTasks'});
@@ -80,11 +65,15 @@ const EditContainer = React.createClass({
   },
 
 
+
   render: function () {
 
-    const objEdit = {
-        query: this.props.location.query
-      }
+    if (!this.state.task.taskName) {
+      return <div>LOADING!</div>
+    }
+
+
+
     return (
     <div>
       <h2>Edit Task</h2>
@@ -99,3 +88,9 @@ const EditContainer = React.createClass({
   })
 
   export default EditContainer;
+
+
+// this used to be in the render...
+  // const objEdit = {
+  //     query: this.props.location.query
+  //   }

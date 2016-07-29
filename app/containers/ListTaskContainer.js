@@ -7,7 +7,6 @@ import TaskForm from '../components/TaskForm';
 import { parse, stringify } from 'query-string';
 import kk from '../components/keys';
 
-
 const ListTaskContainer = React.createClass({
   contextTypes: {
     router: React.PropTypes.object.isRequired
@@ -17,9 +16,9 @@ const ListTaskContainer = React.createClass({
     return {
       isLoading: true,
       tasks: [],
-      mapTasks: []
     }
   },
+
 
 
   componentDidUpdate: function() {
@@ -74,23 +73,10 @@ const ListTaskContainer = React.createClass({
 
       console.log("edit handle triggered");
 
-    const check = function (obj) {
-      return obj._id === e.target.id
-    }
-
-    let obj = this.state.tasks.filter(check)
-
     this.context.router.push({
       pathname: '/editTask',
       query: {
-        specificIndex: obj[0].id,
-        taskMongoid: obj[0]._id,
-        taskName: obj[0].taskName,
-        date: obj[0].date,
-        time: obj[0].time,
-        location: obj[0].location,
-        category: obj[0].category,
-        detail: obj[0].detail
+        taskMongoid: e.target.id,
       }
     })
   },

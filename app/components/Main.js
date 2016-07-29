@@ -6,8 +6,6 @@ const Main = React.createClass({
 
   componentWillMount: function(){
       navigator.geolocation.getCurrentPosition(function(position) {
-        console.log("user latitude" + position.coords.latitude);
-        console.log("user longitude" + position.coords.longitude);
         let userLat = position.coords.latitude;
         let userLong = position.coords.longitude;
     L.mapbox.accessToken = (process.env.MPX || kk.mpx); //keys

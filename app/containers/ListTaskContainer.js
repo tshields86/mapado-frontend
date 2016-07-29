@@ -71,24 +71,31 @@ const ListTaskContainer = React.createClass({
   },
 
   handleOnEdit(e){
-    e.preventDefault();
-    let taskPass = this.state.tasks;
+      e.preventDefault();
+    console.log("logging e.target.id: ", e.target.id);
+    console.log("this.state.tasks ", this.state.tasks);
+
+    const check = function (obj) {
+      return obj._id === e.target.id
+    }
+
+    let obj = this.state.tasks.filter(check)
+
     this.context.router.push({
       pathname: '/editTask',
       query: {
-        specificIndex: e.target.id,
-        taskMongoid: this.state.tasks[e.target.id]._id,
-        taskName: this.state.tasks[e.target.id].taskName,
-        date: this.state.tasks[e.target.id].date,
-        time: this.state.tasks[e.target.id].time,
-        location: this.state.tasks[e.target.id].location,
-        category: this.state.tasks[e.target.id].category,
-        detail: this.state.tasks[e.target.id].detail
+        specificIndex: obj[0].id,
+        taskMongoid: obj[0]._id,
+        taskName: obj[0].taskName,
+        date: obj[0].date,
+        time: obj[0].time,
+        location: obj[0].location,
+        category: obj[0].category,
+        detail: obj[0].detail
       }
     })
   },
 
-  // map blips fxn
   pointOnMap:function(longitude, latitude, color, taskName, desc, taskIndex){
 
     L.mapbox.featureLayer({
@@ -116,23 +123,23 @@ const ListTaskContainer = React.createClass({
 
   },
 
-  render: function() {
-    console.log("this.state.tasks", this.state.tasks);
+  // we had an array and we pushed the JSX into it and dropped it in the render-return
 
+  render: function() {
   let tasksList = this.state.tasks.map( (task) => {
     return(
       <ListTask
+        key={task._id}
         task={task}
         handleOnDelete={this.handleOnDelete}
         handleOnEdit={this.handleOnEdit}
       />
     )
-
   });
 
   return (
     <div>
-      <h2>Show all Tasks</h2>
+      <h2>All Tasks</h2>
       <Link to='/'>
           <button type="button" id='home' className="btn btn-primary">&#x25B2;</button>
       </Link>

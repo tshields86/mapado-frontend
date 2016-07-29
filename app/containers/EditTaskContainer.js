@@ -11,9 +11,8 @@ const EditContainer = React.createClass({
 
   getInitialState: function(){
     return {
-      task: {
-          taskMongoid: this.props.location.query.taskMongoid,
-        }
+      taskMongoid: this.props.location.query.taskMongoid,
+      task: {}
     }
   },
 
@@ -43,7 +42,7 @@ const EditContainer = React.createClass({
 
     let taskToUpdate = {
         identifier: {
-          taskMongoid: this.state.task.taskMongoid
+          taskMongoid: this.state.taskMongoid
         },
         objToChange: {
           taskName: this.state.task.taskName,

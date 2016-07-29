@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router';
-import HomeStyles from '../styles/HomeStyles';
 
 function AddTask(props) {
   return (

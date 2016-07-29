@@ -46,8 +46,8 @@ const Main = React.createClass({
       color: "#F5F5F5"
     }
     const StyleMap = {
-      width: '100vw',
-      height: '65vw',
+      // width: '90%',
+      height: '100%',
       zIndex: '-3000',
       position: 'fixed',
       border: '0',
@@ -57,15 +57,16 @@ const Main = React.createClass({
       width: '25vw',
       zIndex: '3000',
       float: 'right',
-      marginRight: '2vw',
       background: "rgba(1,1,1,0.75)",
     }
 
     return(
       <div style={StyleAll}>
         <h1 style={StyleHeader}>Mapado NYC</h1>
-        <div id='map' style={StyleMap}></div>
-        <div style={StyleData}>{this.props.children}</div>
+        <div className="row">
+          <div id='map' className="col-md-9 pull-left2" style={StyleMap}></div>
+          <div className="col-md-3 pull-right" style={StyleData}>{this.props.children}</div>
+        </div>
       </div>
     )
   }

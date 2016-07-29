@@ -5,7 +5,6 @@ import {Link} from 'react-router';
 import ListTask from '../components/ListTask';
 import AddTask from '../components/AddTask';
 import { parse, stringify } from 'query-string';
-import HomeStyles from '../styles/HomeStyles';
 import kk from '../components/keys';
 
 
@@ -145,7 +144,7 @@ const ListTaskContainer = React.createClass({
       </Link>
     <br></br>
       <Link to='addTask'>
-          <button type='button' className='btn btn-primary' style={HomeStyles.button}>&#x2b;</button>
+          <button type='button' className='btn btn-primary' >&#x2b;</button>
       </Link>
       {tasksList}
     </div>

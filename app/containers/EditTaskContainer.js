@@ -3,7 +3,6 @@ import AddTask from '../components/AddTask';
 import ajaxHelpers from '../utils/ajaxHelpers';
 import {Link} from 'react-router';
 import ListTask from '../components/ListTask';
-import HomeStyles from '../styles/HomeStyles';
 
 const EditContainer = React.createClass({
   contextTypes: {

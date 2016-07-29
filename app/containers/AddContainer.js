@@ -74,7 +74,7 @@ const AddContainer = React.createClass({
   },
 
   render: function () {
-    console.log("logging state:", this.state.task.category);
+
     const tasksListElement = [];
     const listStyle = {
       border: "1px solid black"

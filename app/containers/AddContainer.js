@@ -65,11 +65,11 @@ const AddContainer = React.createClass({
       .then(function(response){
         console.log('Response:', response);
         // routingToList();
-        })
+      })
+      .then(()=> {
+        this.context.router.push({pathname: '/listTasks'});
+      })
     };
-    setTimeout(()=>{
-      this.context.router.push({pathname: '/listTasks'});
-    }, 10)
 
   },
 

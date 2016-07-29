@@ -13,12 +13,9 @@ const ListTaskContainer = React.createClass({
     router: React.PropTypes.object.isRequired
   },
 
-
-
   getInitialState: function() {
     return {
       isLoading: true,
-      _id: '',
       tasks: [],
       mapTasks: []
     }
@@ -38,18 +35,18 @@ const ListTaskContainer = React.createClass({
     // L.mapbox.clearLayers(L.mapbox.featureLayer)
 
     // looping through
-    for(let task in this.state.tasks){
-      ajaxHelpers.geoCode(this.state.tasks[task].location)
-      .then((response)=>{
-        let taskHolder = parseInt(task)+1;
-        // console.log("geometry prob: ", response.data.results);
-        let lat = response.data.results[0].geometry.location.lng;
-        let lng = response.data.results[0].geometry.location.lat;
-        let taskName = this.state.tasks[task].taskName;
-        let detail = this.state.tasks[task].detail;
-        this.pointOnMap(lng, lat, '#0073E5', taskName, detail, taskHolder);
-      });
-      }
+    // for(let task in this.state.tasks){
+    //   ajaxHelpers.geoCode(this.state.tasks[task].location)
+    //   .then((response)=>{
+    //     let taskHolder = parseInt(task)+1;
+    //     // console.log("geometry prob: ", response.data.results);
+    //     let lat = response.data.results[0].geometry.location.lng;
+    //     let lng = response.data.results[0].geometry.location.lat;
+    //     let taskName = this.state.tasks[task].taskName;
+    //     let detail = this.state.tasks[task].detail;
+    //     this.pointOnMap(lng, lat, '#0073E5', taskName, detail, taskHolder);
+    //   });
+    //   }
   },
 
   componentDidMount: function() {
@@ -63,6 +60,9 @@ const ListTaskContainer = React.createClass({
   },
 
   handleOnDelete(e){
+    console.log("delete handle triggered");
+
+
     ajaxHelpers.deleteTask(e.target.id)
     .then(function(response){
     })
@@ -71,8 +71,8 @@ const ListTaskContainer = React.createClass({
 
   handleOnEdit(e){
       e.preventDefault();
-    console.log("logging e.target.id: ", e.target.id);
-    console.log("this.state.tasks ", this.state.tasks);
+
+      console.log("edit handle triggered");
 
     const check = function (obj) {
       return obj._id === e.target.id
@@ -114,11 +114,6 @@ const ListTaskContainer = React.createClass({
         'marker-symbol': taskIndex
       }
     }).addTo(Window.map)
-
-  },
-
-  reblip: function(){
-    let markers = [];
 
   },
 

@@ -72,7 +72,6 @@ const EditContainer = React.createClass({
 
     ajaxHelpers.updateTask(taskToUpdate)
     .then(function(response){
-      console.log('Response:', response);
       })
     .then(() => {
       this.context.router.push({pathname: '/listTasks'});

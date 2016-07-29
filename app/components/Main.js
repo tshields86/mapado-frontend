@@ -54,9 +54,9 @@ const Main = React.createClass({
       padding: '0'
     };
     const StyleData = {
-      width: '25vw',
+      // width: '25vw',
       zIndex: '3000',
-      float: 'right',
+      // float: 'right',
       background: "rgba(1,1,1,0.75)",
     }
 
@@ -64,8 +64,8 @@ const Main = React.createClass({
       <div style={StyleAll}>
         <h1 style={StyleHeader}>Mapado NYC</h1>
         <div className="row">
-          <div id='map' className="col-md-9 pull-left2" style={StyleMap}></div>
-          <div className="col-md-3 pull-right" style={StyleData}>{this.props.children}</div>
+          <div id='map' className="col-md-9" style={StyleMap}></div>
+          <div className="col-md-10" style={StyleData}>{this.props.children}</div>
         </div>
       </div>
     )

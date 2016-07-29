@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import AddTask from '../components/AddTask';
+import TaskForm from '../components/TaskForm';
 import ajaxHelpers from '../utils/ajaxHelpers';
 import {Link} from 'react-router';
 import ListTask from '../components/ListTask';
@@ -97,7 +97,7 @@ const AddContainer = React.createClass({
         <button type="button" id='list-task' className='btn btn-primary'>&#9776;</button>
       </Link>
       <h2>New Task</h2>
-      <AddTask
+      <TaskForm
         changeFxn={this.handleOnChange}
         onSubmitTask={this.handleOnSubmitTask}
         thisTask={this.state.task}

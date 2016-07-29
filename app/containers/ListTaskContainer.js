@@ -3,7 +3,7 @@ import _ from 'lodash';
 import ajaxHelpers from '../utils/ajaxHelpers';
 import {Link} from 'react-router';
 import ListTask from '../components/ListTask';
-import AddTask from '../components/AddTask';
+import TaskForm from '../components/TaskForm';
 import { parse, stringify } from 'query-string';
 import kk from '../components/keys';
 

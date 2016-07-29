@@ -8,7 +8,7 @@ const Home = React.createClass({
     return (
       <div>
         <Link to='listTasks'>
-          <button type="button" id='list-task' style={HomeStyles.button}>&#9776;</button>
+          <button type="button" className="btn btn-primary" id='list-task' >&#9776;</button>
         </Link>
       </div>
     );

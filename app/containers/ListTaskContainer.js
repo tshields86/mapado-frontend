@@ -27,7 +27,6 @@ const ListTaskContainer = React.createClass({
 
 
   componentDidUpdate: function() {
-    console.log("DID UPDATE!!");
     // console.log("this.state.tasks", this.state.tasks);
     // Window.map.featureLayer.on('ready', function(e){
     //   let marks = []
@@ -50,10 +49,8 @@ const ListTaskContainer = React.createClass({
         let taskName = this.state.tasks[task].taskName;
         let detail = this.state.tasks[task].detail;
         this.pointOnMap(lng, lat, '#0073E5', taskName, detail, taskHolder);
-        // console.log("markers", markers);
       });
       }
-    // this.reblip();
   },
 
   componentDidMount: function() {
@@ -64,7 +61,6 @@ const ListTaskContainer = React.createClass({
         tasks: response.data.tasks
       });
     }.bind(this));
-    // this.reblip();
   },
 
   handleOnDelete(e){
@@ -121,36 +117,30 @@ const ListTaskContainer = React.createClass({
   },
 
   render: function() {
+    console.log("this.state.tasks", this.state.tasks);
 
+  let tasksList = this.state.tasks.map( (task) => {
+    return(
+      <ListTask
+        task={task}
+        handleOnDelete={this.handleOnDelete}
+        handleOnEdit={this.handleOnEdit}
+      />
+    )
 
-  const tasksListElement = [];
-
-  this.state.tasks.map( (task, index) => {
-    tasksListElement.push(
-      <div key={index} id={task._id} className="task-card">
-              <p><b>Task: </b> {task.taskName}</p>
-              <p><b>Date: </b> {task.date}</p>
-              <p><b>Time: </b> {task.time}</p>
-              <p><b>Location: </b>{task.location}</p>
-              <p><b>Category: </b> {task.category}</p>
-              <p><b>Detail: </b> {task.detail}</p>
-              <button id={index} type="button" onClick={this.handleOnEdit} style={HomeStyles.button}>&#x270D;</button>
-              <button id={task._id} type="button" onClick={this.handleOnDelete} style={HomeStyles.button}>&#10005;</button>
-        </div>
-    );
   });
 
   return (
     <div>
       <h2>Show all Tasks</h2>
       <Link to='/'>
-          <button type="button" id='home' style={HomeStyles.home}>&#x25B2;</button>
+          <button type="button" id='home' className="btn btn-primary">&#x25B2;</button>
       </Link>
     <br></br>
       <Link to='addTask'>
-          <button type='button' className='add-btn' style={HomeStyles.button}>&#x2b;</button>
+          <button type='button' className='btn btn-primary' style={HomeStyles.button}>&#x2b;</button>
       </Link>
-      {tasksListElement}
+      {tasksList}
     </div>
     )
   }

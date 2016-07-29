@@ -47,7 +47,7 @@ const ListTaskContainer = React.createClass({
     //   }
   },
 
-  componentDidUpdate: function() {
+  componentWillMount: function() {
     ajaxHelpers.getTasks()
     .then(function(response){
       this.setState({
@@ -63,7 +63,9 @@ const ListTaskContainer = React.createClass({
     ajaxHelpers.deleteTask(e.target.id)
     .then(function(response){
     })
-    setTimeout(()=>{this.context.router.push({pathname: '/deleteTask'})}, 10)
+    .then(() => {
+      this.context.router.push({pathname: '/deleteTask'})
+    })
   },
 
   handleOnEdit(e){
@@ -80,7 +82,6 @@ const ListTaskContainer = React.createClass({
   },
 
   pointOnMap:function(longitude, latitude, color, taskName, desc, taskIndex){
-
     L.mapbox.featureLayer({
       type: 'Feature',
       geometry: {
@@ -98,7 +99,6 @@ const ListTaskContainer = React.createClass({
         'marker-symbol': taskIndex
       }
     }).addTo(Window.map)
-
   },
 
   // we had an array and we pushed the JSX into it and dropped it in the render-return
@@ -125,7 +125,6 @@ const ListTaskContainer = React.createClass({
       <Link to='/'>
           <button type="button" id='home' className="btn btn-primary">&#x25B2;</button>
       </Link>
-    <br></br>
       <Link to='addTask'>
           <button type='button' className='btn btn-primary' >&#x2b;</button>
       </Link>

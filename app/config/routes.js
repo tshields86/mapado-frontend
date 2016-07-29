@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, IndexRoute, browserHistory} from 'react-router';
+import { Router, Route, IndexRoute, hashHistory} from 'react-router';
 //routing
 import Main from '../components/Main';
 import Home from '../components/Home';
@@ -12,7 +12,7 @@ import DeleteTemp from '../containers/DeleteTemp';
 //      <Route path='editTask' component={EditTaskContainer}/>
         // <Route path='/editTask/:id' component={EditTaskContainer}></Route>
 const routes = (
-  <Router history={browserHistory}>
+  <Router history={hashHistory}>
     <Route path='/' component={Main}>
       <IndexRoute component={Home} />
       <Route path='addTask' component={AddContainer}/>

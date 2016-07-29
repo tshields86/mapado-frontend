@@ -74,7 +74,7 @@ const AddContainer = React.createClass({
   },
 
   render: function () {
-    console.log("logging state:", this.state.task.taskName);
+    console.log("logging state:", this.state.task.category);
     const tasksListElement = [];
     const listStyle = {
       border: "1px solid black"
@@ -93,13 +93,16 @@ const AddContainer = React.createClass({
     }
     return (
     <div>
+      <Link to='listTasks'>
+        <button type="button" id='list-task' className='btn btn-primary'>&#9776;</button>
+      </Link>
+      <h2>New Task</h2>
       <AddTask
         changeFxn={this.handleOnChange}
         onSubmitTask={this.handleOnSubmitTask}
-        tasks={tasksListElement}
-        currentTask={this.state.task}
+        thisTask={this.state.task}
       />
-
+      <tasksListElement />
     </div>
     );
   }

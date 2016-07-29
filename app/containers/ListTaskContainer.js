@@ -124,12 +124,10 @@ const ListTaskContainer = React.createClass({
 
 
   const tasksListElement = [];
-  const listStyle = {
-    border: "1px solid black"
-  }
+
   this.state.tasks.map( (task, index) => {
     tasksListElement.push(
-      <div key={index} style={listStyle} id={task._id} className="task-card">
+      <div key={index} id={task._id} className="task-card">
               <p><b>Task: </b> {task.taskName}</p>
               <p><b>Date: </b> {task.date}</p>
               <p><b>Time: </b> {task.time}</p>
@@ -138,7 +136,7 @@ const ListTaskContainer = React.createClass({
               <p><b>Detail: </b> {task.detail}</p>
               <button id={index} type="button" onClick={this.handleOnEdit} style={HomeStyles.button}>&#x270D;</button>
               <button id={task._id} type="button" onClick={this.handleOnDelete} style={HomeStyles.button}>&#10005;</button>
-            </div>
+        </div>
     );
   });
 
@@ -152,7 +150,7 @@ const ListTaskContainer = React.createClass({
       <Link to='addTask'>
           <button type='button' className='add-btn' style={HomeStyles.button}>&#x2b;</button>
       </Link>
-      <ListTask tasks={tasksListElement}/>
+      {tasksListElement}
     </div>
     )
   }

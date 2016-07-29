@@ -1,100 +1,89 @@
 import React from 'react';
 import {Link} from 'react-router';
-import ListTask from './ListTask';
 import HomeStyles from '../styles/HomeStyles';
-
-
-const AddStyle = {
-  border: '1px solid black'
-}
 
 function AddTask(props) {
   return (
-    <div>
-      <Link to='listTasks'>
-        <button type="button" id='list-task' style={HomeStyles.button}>&#9776;</button>
-      </Link>
-      <h2>New Task</h2>
-      <div style={AddStyle}>
-        <form>
-          <div>
-            <b>Task: </b>
-            <br/>
+    <div className="">
+      <form className="bootstrap-iso form">
+          <div className="form-group">
+            <label for="">Task</label>
             <input
+              className="form-control"
               type='text'
               onChange={props.changeFxn('taskName')}
-              value={props.currentTask.taskName}
+              value={props.thisTask.taskName}
+              placeholder="Enter Task"
+              id="form-taskname"
             />
+          </div>
 
-            <b>Date: </b>
+          <div className="form-group">
+            <label for="form-date">Date</label>
             <input
-              type='date'
-              className='date'
+              className="form-control"
+              placeholder="MM/DD/YYY"
+              type="date"
               onChange={props.changeFxn('date')}
-              value={props.currentTask.date}
+              value={props.thisTask.date}
+              id="form-date"
+              name="date"
             />
+          </div>
 
-            <br/><br/>
-
-            <b>Location: </b>
+          <div className="form-group">
+            <label for="form-location">Location</label>
             <input
+              className="form-control"
               type='text'
-              className='location'
               onChange={props.changeFxn('location')}
-              value={props.currentTask.location}
+              value={props.thisTask.location}
+              id="form-location"
             />
+          </div>
 
-            <br/><br/><br/>
+          <select
+            onChange={props.changeFxn('category')}
+            value={props.thisTask.category}
+            className="custom-select"
+          >
+            <option selected>Choose Category</option>
+            <option value="personal">Personal</option>
+            <option value="school">School</option>
+            <option value="work">Work</option>
+            <option value="other">Other</option>
+          </select>
 
-            <select
-              onChange={props.changeFxn('category')}
-              value={props.currentTask.category}
-            >
-              <option>Select</option>
-              <option value="personal">Personal</option>
-              <option value="school">School</option>
-              <option value="work">Work</option>
-              <option value="other">Other</option>
-            </select>
-
-            <br/><br/>
-
-            <b>Time: </b>
-              <br/>
+          <div className="form-group">
+            <label for="form-time">Time</label>
             <input
+              className="form-control"
               type='time'
               onChange={props.changeFxn('time')}
-              value={props.currentTask.time}
+              value={props.thisTask.time}
+              id="form-time"
             />
+          </div>
 
-              <br/><br/>
-
-            <b>Description: </b>
-              <br/>
+          <div className="form-group">
+            <label for="form-description">Description</label>
             <textarea
+              className="form-control"
               maxLength='140'
               placeholder='What is the plan..'
               onChange={props.changeFxn('detail')}
-              value={props.currentTask.detail}
+              value={props.thisTask.detail}
+              id="form-description"
             />
-
           </div>
 
-            <br/>
-
-          <div>
-            <button className='task-add-btn'
-                    type='submit'
-                    style={HomeStyles.button}
-                    onClick={props.onSubmitTask}
-                    >&#x2b;
-            </button>
-            <br/><br/>
-          </div>
-
-        </form>
-        {props.tasks}
-      </div>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={props.onSubmitTask}
+          >&#x2b;
+          </button>
+      </form>
     </div>
   )
 }

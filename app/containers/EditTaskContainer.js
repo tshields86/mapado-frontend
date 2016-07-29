@@ -3,7 +3,6 @@ import AddTask from '../components/AddTask';
 import ajaxHelpers from '../utils/ajaxHelpers';
 import {Link} from 'react-router';
 import ListTask from '../components/ListTask';
-import EditTask from '../components/EditTask';
 import HomeStyles from '../styles/HomeStyles';
 
 const EditContainer = React.createClass({
@@ -13,57 +12,36 @@ const EditContainer = React.createClass({
 
   getInitialState: function(){
     return {
-      taskMongoid: this.props.location.query.taskMongoid,
-      taskName: this.props.location.query.taskName,
-      date: this.props.location.query.date,
-      time: this.props.location.query.time,
-      location: this.props.location.query.location,
-      category: this.props.location.query.category,
-      detail: this.props.location.query.detail
+      task:{
+        taskMongoid: this.props.location.query.taskMongoid,
+        taskName: this.props.location.query.taskName,
+        date: this.props.location.query.date,
+        time: this.props.location.query.time,
+        location: this.props.location.query.location,
+        category: this.props.location.query.category,
+        detail: this.props.location.query.detail
+      }
     }
   },
 
 
   componentWillMount: function() {
-    console.log('component will mount');
     ajaxHelpers.getTask(this.props.params.id)
     .then((response)=>{
-      console.log('response in componentWillMount', response);
       this.setState({
         tasks: response
       });
     });
   },
 
-  handleOnTaskName: function(e){
-    this.setState({
-      taskName: e.target.value,
-    })
-  },
-  handleOnDate: function(e){
-    this.setState({
-      date: e.target.value
-    })
-  },
-  handleOnTime: function(e){
-    this.setState({
-      time: e.target.value
-    })
-  },
-  handleOnLocation: function(e){
-    this.setState({
-      location: e.target.value
-    })
-  },
-  handleOnCategory: function(e){
-    this.setState({
-      category: e.target.value
-    })
-  },
-  handleOnDetail: function(e){
-    this.setState({
-      detail: e.target.value
-    })
+  handleOnChange: function(propertyName){
+    return function (e){
+      var task ={};
+      task[propertyName] = e.target.value;
+      this.setState({
+        task: task
+      })
+    }.bind(this)
   },
 
   componentDidMount: function() {
@@ -93,18 +71,13 @@ const EditContainer = React.createClass({
         }
     };
 
-    console.log('taskToUpdate', taskToUpdate);
-
     ajaxHelpers.updateTask(taskToUpdate)
     .then(function(response){
       console.log('Response:', response);
-      // routingToList();
       })
-
-      setTimeout(()=>{
-        this.context.router.push({
-          pathname: '/listTasks'});
-      }, 10)
+    .then(() => {
+      this.context.router.push({pathname: '/listTasks'});
+    })
 
   },
 
@@ -116,15 +89,11 @@ const EditContainer = React.createClass({
       }
     return (
     <div>
-      <EditTask
-        thisTask={this.state}
-        onEditTaskName={this.handleOnTaskName}
-        onEditDate={this.handleOnDate}
-        onEditTime={this.handleOnTime}
-        onEditLocation={this.handleOnLocation}
-        onEditCategory={this.handleOnCategory}
-        onEditDetail={this.handleOnDetail}
+      <h2>Edit Task</h2>
+      <AddTask
+        changeFxn={this.handleOnChange}
         onSubmitTask={this.handleOnSubmitTask}
+        thisTask={this.state.task}
         />
     </div>
     );

@@ -25,7 +25,7 @@ const AddContainer = React.createClass({
 
   handleOnChange: function(propertyName){
     return function (e){
-      var task ={};
+      let task = this.state.task;
       task[propertyName] = e.target.value;
       this.setState({
         task: task
@@ -79,6 +79,7 @@ const AddContainer = React.createClass({
     const listStyle = {
       border: "1px solid black"
     }
+
       for (let task in this.state.tasks) {
         tasksListElement.push(
           <div key={this.state.tasks[task]._id} style={listStyle} className="task-card">
@@ -91,6 +92,7 @@ const AddContainer = React.createClass({
           </div>
       );
     }
+
     return (
     <div>
       <Link to='listTasks'>

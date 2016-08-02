@@ -25,7 +25,7 @@ const AddContainer = React.createClass({
 
   handleOnChange: function(propertyName){
     return function (e){
-      var task ={};
+      let task = this.state.task;
       task[propertyName] = e.target.value;
       this.setState({
         task: task
@@ -61,6 +61,7 @@ const AddContainer = React.createClass({
     e.preventDefault();
 
     if (this.state.task.taskName !== ''){
+      console.log();
       ajaxHelpers.addTask(this.state.task)
       .then(function(response){
         console.log('Response:', response);
@@ -70,7 +71,6 @@ const AddContainer = React.createClass({
         this.context.router.push({pathname: '/listTasks'});
       })
     };
-
   },
 
   render: function () {
@@ -79,22 +79,34 @@ const AddContainer = React.createClass({
     const listStyle = {
       border: "1px solid black"
     }
-      for (let task in this.state.tasks) {
-        tasksListElement.push(
-          <div key={this.state.tasks[task]._id} style={listStyle} className="task-card">
-            <p>Task: {this.state.tasks[task].taskName}</p>
-            <p>Date: {this.state.tasks[task].date}</p>
-            <p>Time: {this.state.tasks[task].time}</p>
-            <p>Location: {this.state.tasks[task].location}</p>
-            <p>Category: {this.state.tasks[task].category}</p>
-            <p>Detail: {this.state.tasks[task].detail}</p>
-          </div>
-      );
-    }
+    //   for (let task in this.state.tasks) {
+    //     tasksListElement.push(
+    //       <div key={this.state.tasks[task]._id} style={listStyle} className="task-card">
+    //         <p>Task: {this.state.tasks[task].taskName}</p>
+    //         <p>Date: {this.state.tasks[task].date}</p>
+    //         <p>Time: {this.state.tasks[task].time}</p>
+    //         <p>Location: {this.state.tasks[task].location}</p>
+    //         <p>Category: {this.state.tasks[task].category}</p>
+    //         <p>Detail: {this.state.tasks[task].detail}</p>
+    //       </div>
+    //   );
+    //
+    let tasksList = this.state.tasks.map( (task) => {
+      return(
+        <ListTask
+          key={task._id}
+          task={task}
+          handleOnDelete={this.handleOnDelete}
+          handleOnEdit={this.handleOnEdit}
+        />
+      )
+    });
+
+
     return (
     <div>
       <Link to='listTasks'>
-        <button type="button" id='list-task' className='btn btn-primary'>&#9776;</button>
+        <button type="button" id='list-task' className='btn btn-info btn-lg'>&#9776;</button>
       </Link>
       <h2>New Task</h2>
       <TaskForm
@@ -102,7 +114,7 @@ const AddContainer = React.createClass({
         onSubmitTask={this.handleOnSubmitTask}
         thisTask={this.state.task}
       />
-      <tasksListElement />
+      {tasksList}
     </div>
     );
   }

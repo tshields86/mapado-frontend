@@ -30,42 +30,42 @@ const Main = React.createClass({
   },
 
   render: function(){
-    const StyleAll = {
-      boxSizing: 'border-box',
-      textAlign: 'center',
-      fontFamily: "helvetica",
-      color: "#F5F5F5"
-    }
-    const StyleHeader = {
-      position: 'fixed',
-      margin: '0auto',
-      textAlign: "center",
-      fontSize: "60px",
-      margin: "15px 50px 0px 50px",
-      textShadow: '4px -2px 4px rgba(0, 0, 0, 1)',
-      color: "#F5F5F5"
-    }
-    const StyleMap = {
-      // width: '90%',
-      height: '100%',
-      zIndex: '-3000',
-      position: 'fixed',
-      border: '0',
-      padding: '0'
-    };
-    const StyleData = {
-      // width: '25vw',
-      zIndex: '3000',
-      // float: 'right',
-      background: "rgba(1,1,1,0.75)",
-    }
+    // const StyleAll = {
+    //   boxSizing: 'border-box',
+    //   textAlign: 'center',
+    //   fontFamily: "helvetica",
+    //   color: "#F5F5F5"
+    // }
+    // const StyleHeader = {
+    //   position: 'fixed',
+    //   margin: '0auto',
+    //   textAlign: "center",
+    //   fontSize: "60px",
+    //   margin: "15px 50px 0px 50px",
+    //   textShadow: '4px -2px 4px rgba(0, 0, 0, 1)',
+    //   color: "#F5F5F5"
+    // }
+    // const StyleMap = {
+    //   // width: '90%',
+    //   height: '100%',
+    //   zIndex: '-3000',
+    //   position: 'fixed',
+    //   border: '0',
+    //   padding: '0'
+    // };
+    // const StyleData = {
+    //   // width: '25vw',
+    //   zIndex: '3000',
+    //   // float: 'right',
+    //   background: "rgba(1,1,1,0.75)",
+    // }
 
     return(
-      <div style={StyleAll}>
-        <h1 style={StyleHeader}>Mapado NYC</h1>
+      <div >
+        <h1>Mapado NYC</h1>
         <div className="row">
-          <div id='map' className="col-md-9" style={StyleMap}></div>
-          <div className="col-md-10" style={StyleData}>{this.props.children}</div>
+          <div id='map' className="col-md-9" ></div>
+          <div className="col-md-10" >{this.props.children}</div>
         </div>
       </div>
     )

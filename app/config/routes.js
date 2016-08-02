@@ -5,7 +5,6 @@ import Main from '../components/Main';
 import Home from '../components/Home';
 import AddContainer from '../containers/AddContainer';
 import ListTaskContainer from '../containers/ListTaskContainer';
-import EditTaskContainer from '../containers/EditTaskContainer';
 import DeleteTemp from '../containers/DeleteTemp';
 
 //jsx router. tell our data cop where to send our data
@@ -17,7 +16,6 @@ const routes = (
       <IndexRoute component={Home} />
       <Route path='addTask' component={AddContainer}/>
       <Route path='listTasks' component={ListTaskContainer}/>
-      <Route path='editTask' component={EditTaskContainer}/>
       <Route path='deleteTask' component={DeleteTemp}/>
     </Route>
   </Router>

@@ -15,36 +15,13 @@ const ListTaskContainer = React.createClass({
   getInitialState: function() {
     return {
       tasks: [],
+      editing: false,
+      selectedTask: {}
     }
   },
 
-
-
   componentDidUpdate: function() {
-    // console.log("this.state.tasks", this.state.tasks);
-    // Window.map.featureLayer.on('ready', function(e){
-    //   let marks = []
-    //   this.eachLayer(function(marker) {
-    //     console.log("this is a marker", marker);
-    //     marks.push(marker)
-    //   })
-    //   console.log("somemarks", marks);
-    // })
-    // L.mapbox.clearLayers(L.mapbox.featureLayer)
 
-    // looping through
-    // for(let task in this.state.tasks){
-    //   ajaxHelpers.geoCode(this.state.tasks[task].location)
-    //   .then((response)=>{
-    //     let taskHolder = parseInt(task)+1;
-    //     // console.log("geometry prob: ", response.data.results);
-    //     let lat = response.data.results[0].geometry.location.lng;
-    //     let lng = response.data.results[0].geometry.location.lat;
-    //     let taskName = this.state.tasks[task].taskName;
-    //     let detail = this.state.tasks[task].detail;
-    //     this.pointOnMap(lng, lat, '#0073E5', taskName, detail, taskHolder);
-    //   });
-    //   }
   },
 
   componentWillMount: function() {
@@ -54,13 +31,11 @@ const ListTaskContainer = React.createClass({
         tasks: response.data.tasks
       });
     }.bind(this));
+
   },
 
-  handleOnDelete(e){
-    console.log("delete handle triggered");
-
-
-    ajaxHelpers.deleteTask(e.target.id)
+  handleOnDelete(task){
+    ajaxHelpers.deleteTask(task._id)
     .then(function(response){
     })
     .then(() => {
@@ -68,18 +43,55 @@ const ListTaskContainer = React.createClass({
     })
   },
 
-  handleOnEdit(e){
-      e.preventDefault();
-
-      console.log("edit handle triggered");
-
-    this.context.router.push({
-      pathname: '/editTask',
-      query: {
-        taskMongoid: e.target.id,
-      }
-    })
+  handleOnEdit(task){
+    console.log("just passed the entire task", task._id);
+      ajaxHelpers.getTask(task._id)
+      .then((response)=>{
+        this.setState({
+          selectedTask: response.data,
+          editing: true
+        });
+      })
   },
+
+  handleOnChange: function(propertyName){
+    return function (e){
+      console.log("C: Typing in the form, e.target.value:", e.target.value);
+      var thisTask = this.state.selectedTask;
+      thisTask[propertyName] = e.target.value;
+      this.setState({
+        selectedTask: thisTask
+      })
+      console.log("D: this.state.selectedTask: ", this.state.selectedTask);
+    }.bind(this)
+  },
+
+  handleOnSubmitTask: function(e){
+    e.preventDefault();
+    const thisTask = this.state.selectedTask;
+
+    let taskToUpdate = {
+        identifier: {
+          taskMongoid: thisTask._id
+        },
+        objToChange: {
+          taskName: thisTask.taskName,
+          date: thisTask.date,
+          time: thisTask.time,
+          location: thisTask.location,
+          category: thisTask.category,
+          detail: thisTask.detail
+        }
+    };
+    console.log("about to update with this object", taskToUpdate);
+
+    ajaxHelpers.updateTask(taskToUpdate)
+    .then(function(response){
+      console.log("response for updating task: ", response);
+      this.setState({ editing: false });
+    }.bind(this))
+  },
+
 
   pointOnMap:function(longitude, latitude, color, taskName, desc, taskIndex){
     L.mapbox.featureLayer({
@@ -104,33 +116,51 @@ const ListTaskContainer = React.createClass({
   // we had an array and we pushed the JSX into it and dropped it in the render-return
 
   render: function() {
-  let tasksList = this.state.tasks.map( (task) => {
-    return(
-      <ListTask
-        key={task._id}
-        task={task}
-        handleOnDelete={this.handleOnDelete}
-        handleOnEdit={this.handleOnEdit}
-      />
-    )
-  });
 
-  if(false){
-    console.log("WHATEVER");
-  }
+    let tasksList = this.state.tasks.map( (task) => {
+      return(
+        <ListTask
+          key={task._id}
+          task={task}
+          handleOnDelete={this.handleOnDelete}
+          handleOnEdit={this.handleOnEdit}
+        />
+      )
+    });
 
-  return (
-    <div>
-      <h2>All Tasks</h2>
-      <Link to='/'>
-          <button type="button" id='home' className="btn btn-primary">&#x25B2;</button>
-      </Link>
-      <Link to='addTask'>
-          <button type='button' className='btn btn-primary' >&#x2b;</button>
-      </Link>
-      {tasksList}
-    </div>
-    )
+    if( this.state.editing ){
+
+      console.log("this.state.selectedTask", this.state.selectedTask);
+
+      return (
+      <div>
+        <h2>Edit Task</h2>
+        <TaskForm
+          changeFxn={this.handleOnChange}
+          onSubmitTask={this.handleOnSubmitTask}
+          thisTask={this.state.selectedTask}
+          />
+      </div>
+      );
+    }
+
+    if ( !this.state.editing ) {
+      return (
+        <div>
+          <h2>All Tasks</h2>
+          <Link to='/'>
+              <button type="button" id='home' className="btn btn-primary">&#x25B2;</button>
+          </Link>
+          <Link to='addTask'>
+              <button type='button' className='btn btn-primary' >&#x2b;</button>
+          </Link>
+          <div>
+            {tasksList}
+          </div>
+
+        </div>
+        )
+    }
   }
 });
 

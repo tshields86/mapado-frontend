@@ -75,22 +75,10 @@ const AddContainer = React.createClass({
 
   render: function () {
 
-    const tasksListElement = [];
     const listStyle = {
       border: "1px solid black"
     }
-    //   for (let task in this.state.tasks) {
-    //     tasksListElement.push(
-    //       <div key={this.state.tasks[task]._id} style={listStyle} className="task-card">
-    //         <p>Task: {this.state.tasks[task].taskName}</p>
-    //         <p>Date: {this.state.tasks[task].date}</p>
-    //         <p>Time: {this.state.tasks[task].time}</p>
-    //         <p>Location: {this.state.tasks[task].location}</p>
-    //         <p>Category: {this.state.tasks[task].category}</p>
-    //         <p>Detail: {this.state.tasks[task].detail}</p>
-    //       </div>
-    //   );
-    //
+
     let tasksList = this.state.tasks.map( (task) => {
       return(
         <ListTask
@@ -101,7 +89,6 @@ const AddContainer = React.createClass({
         />
       )
     });
-
 
     return (
     <div>

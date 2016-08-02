@@ -13,25 +13,36 @@ const ListTaskContainer = React.createClass({
   },
 
   getInitialState: function() {
+
     return {
-      tasks: [],
+      tasks: null,
       editing: false,
       selectedTask: {}
     }
-  },
-
-  componentDidUpdate: function() {
 
   },
 
   componentWillMount: function() {
-    ajaxHelpers.getTasks()
-    .then(function(response){
-      this.setState({
-        tasks: response.data.tasks
-      });
-    }.bind(this));
+    this.updateAgain()
+  },
 
+  updateAgain: function () {
+    this.setState({tasks: null})
+    ajaxHelpers.getTasks()
+    .then((response) => {
+      let x = response.data.tasks.map( (task) => {
+        return(
+          <ListTask
+            className="list-group-item"
+            key={task._id}
+            task={task}
+            handleOnDelete={this.handleOnDelete}
+            handleOnEdit={this.handleOnEdit}
+          />
+        )
+      });
+      this.setState({tasks: x})
+    });
   },
 
   handleOnDelete(task){
@@ -44,7 +55,6 @@ const ListTaskContainer = React.createClass({
   },
 
   handleOnEdit(task){
-    console.log("just passed the entire task", task._id);
       ajaxHelpers.getTask(task._id)
       .then((response)=>{
         this.setState({
@@ -56,13 +66,11 @@ const ListTaskContainer = React.createClass({
 
   handleOnChange: function(propertyName){
     return function (e){
-      console.log("C: Typing in the form, e.target.value:", e.target.value);
       var thisTask = this.state.selectedTask;
       thisTask[propertyName] = e.target.value;
       this.setState({
         selectedTask: thisTask
       })
-      console.log("D: this.state.selectedTask: ", this.state.selectedTask);
     }.bind(this)
   },
 
@@ -83,13 +91,12 @@ const ListTaskContainer = React.createClass({
           detail: thisTask.detail
         }
     };
-    console.log("about to update with this object", taskToUpdate);
 
     ajaxHelpers.updateTask(taskToUpdate)
-    .then(function(response){
-      console.log("response for updating task: ", response);
+    .then( (response) => {
+      this.updateAgain()
       this.setState({ editing: false });
-    }.bind(this))
+    })
   },
 
 
@@ -117,20 +124,11 @@ const ListTaskContainer = React.createClass({
 
   render: function() {
 
-    let tasksList = this.state.tasks.map( (task) => {
-      return(
-        <ListTask
-          key={task._id}
-          task={task}
-          handleOnDelete={this.handleOnDelete}
-          handleOnEdit={this.handleOnEdit}
-        />
-      )
-    });
+    if(!this.state.tasks){
+      return <div>Loading...</div>
+    }
 
     if( this.state.editing ){
-
-      console.log("this.state.selectedTask", this.state.selectedTask);
 
       return (
       <div>
@@ -155,9 +153,8 @@ const ListTaskContainer = React.createClass({
               <button type='button' className='btn btn-primary' >&#x2b;</button>
           </Link>
           <div>
-            {tasksList}
+            {this.state.tasks}
           </div>
-
         </div>
         )
     }

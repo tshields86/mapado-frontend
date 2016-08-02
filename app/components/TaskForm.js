@@ -1,12 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-function AddTask(props) {
+function TaskForm(props) {
   return (
-    <div className="">
       <form className="bootstrap-iso form">
           <div className="form-group">
-            <label for="">Task</label>
+            <label htmlFor="">Task</label>
             <input
               className="form-control"
               type='text'
@@ -18,7 +17,7 @@ function AddTask(props) {
           </div>
 
           <div className="form-group">
-            <label for="form-date">Date</label>
+            <label htmlFor="form-date">Date</label>
             <input
               className="form-control"
               placeholder="MM/DD/YYY"
@@ -31,7 +30,7 @@ function AddTask(props) {
           </div>
 
           <div className="form-group">
-            <label for="form-location">Location</label>
+            <label htmlFor="form-location">Location</label>
             <input
               className="form-control"
               type='text'
@@ -54,7 +53,7 @@ function AddTask(props) {
           </select>
 
           <div className="form-group">
-            <label for="form-time">Time</label>
+            <label htmlFor="form-time">Time</label>
             <input
               className="form-control"
               type='time'
@@ -65,7 +64,7 @@ function AddTask(props) {
           </div>
 
           <div className="form-group">
-            <label for="form-description">Description</label>
+            <label htmlFor="form-description">Description</label>
             <textarea
               className="form-control"
               maxLength='140'
@@ -83,8 +82,7 @@ function AddTask(props) {
           >&#x2b;
           </button>
       </form>
-    </div>
   )
 }
 
-export default AddTask;
+export default TaskForm;

@@ -22,34 +22,27 @@ const ListTaskContainer = React.createClass({
 
   },
 
-  componentWillMount: function() {
+
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return nextState.tasks !== this.state.tasks;
+  },
+
+  componentDidMount: function() {
     this.updateAgain()
   },
 
+
   updateAgain: function () {
-    this.setState({tasks: null})
     ajaxHelpers.getTasks()
     .then((response) => {
-      let x = response.data.tasks.map( (task) => {
-        return(
-          <ListTask
-            className="list-group-item"
-            key={task._id}
-            task={task}
-            handleOnDelete={this.handleOnDelete}
-            handleOnEdit={this.handleOnEdit}
-          />
-        )
-      });
-      this.setState({tasks: x})
+      console.log(response.data.tasks);
+      this.setState({tasks: response.data.tasks})
     });
   },
 
   handleOnDelete(task){
     ajaxHelpers.deleteTask(task._id)
-    .then(function(response){
-    })
-    .then(() => {
+    .then((response) => {
       this.context.router.push({pathname: '/deleteTask'})
     })
   },
@@ -57,9 +50,10 @@ const ListTaskContainer = React.createClass({
   handleOnEdit(task){
       ajaxHelpers.getTask(task._id)
       .then((response)=>{
+        console.log("we have an edit response", response.data);
         this.setState({
+          editing: true,
           selectedTask: response.data,
-          editing: true
         });
       })
   },
@@ -124,25 +118,37 @@ const ListTaskContainer = React.createClass({
 
   render: function() {
 
+    if( this.state.editing ){
+
+      return (
+        <div>
+        <h2>Edit Task</h2>
+        <TaskForm
+        changeFxn={this.handleOnChange}
+        onSubmitTask={this.handleOnSubmitTask}
+        thisTask={this.state.selectedTask}
+        />
+        </div>
+      );
+    }
+
     if(!this.state.tasks){
       return <div>Loading...</div>
     }
 
-    if( this.state.editing ){
 
-      return (
-      <div>
-        <h2>Edit Task</h2>
-        <TaskForm
-          changeFxn={this.handleOnChange}
-          onSubmitTask={this.handleOnSubmitTask}
-          thisTask={this.state.selectedTask}
-          />
-      </div>
-      );
-    }
+    let tasksList = this.state.tasks.map( (task) => {
+      return(
+        <ListTask
+          className="list-group-item"
+          key={task._id}
+          task={task}
+          handleOnDelete={this.handleOnDelete}
+          handleOnEdit={this.handleOnEdit}
+        />
+      )
+    });
 
-    if ( !this.state.editing ) {
       return (
         <div>
           <h2>All Tasks</h2>
@@ -153,11 +159,11 @@ const ListTaskContainer = React.createClass({
               <button type='button' className='btn btn-primary' >&#x2b;</button>
           </Link>
           <div>
-            {this.state.tasks}
+            {tasksList}
           </div>
         </div>
         )
-    }
+
   }
 });
 

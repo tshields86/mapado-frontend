@@ -63,11 +63,8 @@ const AddContainer = React.createClass({
     if (this.state.task.taskName !== ''){
       console.log();
       ajaxHelpers.addTask(this.state.task)
-      .then(function(response){
+      .then( (response) => {
         console.log('Response:', response);
-        // routingToList();
-      })
-      .then(()=> {
         this.context.router.push({pathname: '/listTasks'});
       })
     };
